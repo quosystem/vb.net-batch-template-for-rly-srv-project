@@ -41,10 +41,10 @@ Module Module1
 #Else
         ConfigManager.RunEnvironment = CommonConstants.EnvironmentType.Production
 #End If
-        ConfigManager.SystemVer = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString()
 
         ConfigManager.SystemID = ConfigurationManager.AppSettings("SystemID")
         ConfigManager.SystemName = ConfigurationManager.AppSettings("SystemName")
+        ConfigManager.SystemVer = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString()
         ConfigManager.SystemLogFolder = ConfigurationManager.AppSettings("SystemLogFolder")
         ConfigManager.UserId = "Batch"
         ConfigManager.HostName = System.Environment.MachineName
