@@ -1,10 +1,8 @@
-﻿Imports System.Deployment.Application
-Imports System.Text
+﻿Imports System.Text
 Imports Common
 Imports Common.Constants
-Imports Common.DB.Connections
-Imports Common.DbServices.Common
 Imports Common.Log.Manager
+Imports System.Configuration
 
 Module ExitCodes
     Public Const ExitCodeError As Integer = -1           ' 実行中エラー
@@ -45,30 +43,19 @@ Module Module1
 #End If
         ConfigManager.SystemVer = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString()
 
-
-
-        ConfigManager.ProActive = New DbCommonService(DatabaseType.oracle, TargetType.proactive)
-        ConfigManager.QuoSystem = New DbCommonService(DatabaseType.oracle, TargetType.quo_system)
-        ConfigManager.Quopadb = New DbCommonService(DatabaseType.oracle, TargetType.quopadb)
-
-        ConfigManager.SystemID = "07"
+        ConfigManager.SystemID = ConfigurationManager.AppSettings("SystemID")
+        ConfigManager.SystemName = ConfigurationManager.AppSettings("SystemName")
+        ConfigManager.SystemLogFolder = ConfigurationManager.AppSettings("SystemLogFolder")
         ConfigManager.UserId = "Batch"
         ConfigManager.HostName = System.Environment.MachineName
-        ConfigManager.SystemName = CommonDAL.GetSystemName(ConfigManager.SystemID)
-        ConfigManager.Logger = LogFactory.CreateLogManager(DatabaseType.oracle,
-                                                            TargetType.quo_system,
-                                                            ConfigManager.SystemID,
+
+        ConfigManager.Logger = LogFactory.CreateLogManager(ConfigManager.SystemID,
                                                             ConfigManager.SystemName,
                                                             ConfigManager.SystemVer,
                                                             ConfigManager.SystemLogFolder,
                                                             ConfigManager.HostName,
                                                             ConfigManager.UserId)
-        ConfigManager.ProActive.SetLogger(ConfigManager.Logger)
-        ConfigManager.QuoSystem.SetLogger(ConfigManager.Logger)
-        ConfigManager.Quopadb.SetLogger(ConfigManager.Logger)
 
-        ConfigManager.ConstManager = New ConstantManager(DatabaseType.oracle, TargetType.quo_system, ConfigManager.SystemID)
-        ConfigManager.SystemLogFolder = ConfigManager.ConstManager.GetConstant("LOG", "LOG_FOLDER")
     End Sub
 
     ''' <summary>

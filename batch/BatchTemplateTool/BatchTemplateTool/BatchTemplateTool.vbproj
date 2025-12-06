@@ -70,6 +70,11 @@
     <Prefer32Bit>true</Prefer32Bit>
     <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Staging|x64'">
+    <DefineTrace>true</DefineTrace>
+    <DefineConstants>STAGING</DefineConstants>
+    <OutputPath>bin\Staging\</OutputPath>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AWSSDK.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
       <HintPath>..\packages\AWSSDK.Core.4.0.0.17\lib\net472\AWSSDK.Core.dll</HintPath>
@@ -232,8 +237,27 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
-    <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <None Include="App.Debug.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Link>App.config</Link>
+    </None>
+  </ItemGroup>
+  <!-- Release用 -->
+  <ItemGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <None Include="App.Release.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Link>App.config</Link>
+    </None>
+  </ItemGroup>
+  <!-- Staging用 -->
+  <ItemGroup Condition="'$(Configuration)|$(Platform)' == 'Staging|x64'">
+    <None Include="App.Staging.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Link>App.config</Link>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.8.1">
